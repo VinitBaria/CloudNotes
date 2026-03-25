@@ -15,7 +15,7 @@ const setTokenCookie = (res, token) => {
   res.cookie('token', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Must be 'none' for Vercel/Render cross-domain
     maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
   });
 };
@@ -123,6 +123,8 @@ router.put('/profile', protect, async (req, res) => {
 router.post('/logout', (req, res) => {
   res.cookie('token', '', {
     httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     expires: new Date(0)
   });
   res.json({ message: 'Logged out successfully' });
