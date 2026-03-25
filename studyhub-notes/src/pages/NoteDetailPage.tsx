@@ -144,7 +144,7 @@ const NoteDetailPage = () => {
     if (!note?.fileUrl) return;
     
     try {
-      const res = await fetch(`http://localhost:5000/api/notes/${noteId}/download`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/notes/${noteId}/download`, {
         method: 'POST',
       });
       if (res.ok) {
@@ -155,7 +155,7 @@ const NoteDetailPage = () => {
       console.error("Failed to update download count", err);
     }
 
-    let url = note.fileUrl.startsWith('http') ? note.fileUrl : `http://localhost:5000${note.fileUrl}`;
+    let url = note.fileUrl.startsWith('http') ? note.fileUrl : `${import.meta.env.VITE_API_URL.replace('/api', '')}${note.fileUrl}`;
     
     // Fix spaces and special characters in URLs to avoid ERR_INVALID_RESPONSE
     url = url.replace(/ /g, '%20');
@@ -181,7 +181,7 @@ const NoteDetailPage = () => {
 
   const getPagePreviewUrl = (pageNumber: number) => {
     if (!note?.fileUrl) return "";
-    const rawUrl = note.fileUrl.startsWith('http') ? note.fileUrl : `http://localhost:5000${note.fileUrl}`;
+    const rawUrl = note.fileUrl.startsWith('http') ? note.fileUrl : `${import.meta.env.VITE_API_URL.replace('/api', '')}${note.fileUrl}`;
     
     if (rawUrl.includes('cloudinary.com')) {
       // Always extract the real page from the PDF using pg_ parameter
@@ -244,7 +244,7 @@ const NoteDetailPage = () => {
                   <h2 className="font-heading font-bold text-lg text-foreground flex items-center gap-2">
                     <Eye className="w-5 h-5 text-primary" />Note Preview
                   </h2>
-                  <Button variant="ghost" size="sm" className="text-xs gap-1.5 h-8 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => window.open(note.fileUrl.startsWith('http') ? note.fileUrl : `http://localhost:5000${note.fileUrl}`, '_blank')}>
+                  <Button variant="ghost" size="sm" className="text-xs gap-1.5 h-8 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => window.open(note.fileUrl.startsWith('http') ? note.fileUrl : `${import.meta.env.VITE_API_URL.replace('/api', '')}${note.fileUrl}`, '_blank')}>
                     <Download className="w-3.5 h-3.5" />Full View
                   </Button>
                 </div>

@@ -25,7 +25,7 @@ router.post('/create-order', protect, async (req, res) => {
     const apiKey = process.env.LEMON_SQUEEZY_API_KEY;
     const storeId = process.env.LEMON_SQUEEZY_STORE_ID;
     const variantId = process.env.LEMON_SQUEEZY_VARIANT_ID;
-    const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+    const clientUrl = req.headers.origin || process.env.CLIENT_URL || 'http://localhost:5173';
 
     if (apiKey && apiKey !== 'mock' && storeId && variantId) {
        const lsResp = await fetch('https://api.lemonsqueezy.com/v1/checkouts', {

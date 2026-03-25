@@ -48,7 +48,7 @@ const Index = () => {
   const [trendingNotes, setTrendingNotes] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/notes/trending')
+    fetch(`${import.meta.env.VITE_API_URL}/notes/trending`)
       .then(res => res.json())
       .then(data => setTrendingNotes(data))
       .catch(err => console.error('Error fetching trending notes:', err));

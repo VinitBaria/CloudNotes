@@ -20,7 +20,7 @@ const PaymentSuccess = () => {
 
     const verifyPayment = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/payment/verify', {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/payment/verify`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ order_id: orderId, noteId }),
