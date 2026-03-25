@@ -55,7 +55,7 @@ const seedDefaults = async () => {
     }
 
     // Seed site settings singleton
-    await SiteSettings.findOneAndUpdate({ key: 'main' }, {}, { upsert: true, new: true });
+    await SiteSettings.findOneAndUpdate({ key: 'main' }, {}, { upsert: true, returnDocument: 'after' });
   } catch (err) {
     console.error('Admin seed error:', err.message);
   }
@@ -256,7 +256,7 @@ router.put('/users/:id/role', async (req, res) => {
   try {
     const { role } = req.body;
     if (!['student', 'admin'].includes(role)) return res.status(400).json({ message: 'Invalid role' });
-    const user = await User.findByIdAndUpdate(req.params.id, { role }, { new: true }).select('-password');
+    const user = await User.findByIdAndUpdate(req.params.id, { role }, { returnDocument: 'after' }).select('-password');
     res.json(user);
   } catch (err) {
     res.status(500).json({ message: 'Server Error' });
@@ -302,7 +302,7 @@ router.delete('/announcements/:id', async (req, res) => {
 
 // ─── SITE SETTINGS ───────────────────────────────────────────────────────────
 router.get('/settings', async (req, res) => {
-  const settings = await SiteSettings.findOneAndUpdate({ key: 'main' }, {}, { upsert: true, new: true });
+  const settings = await SiteSettings.findOneAndUpdate({ key: 'main' }, {}, { upsert: true, returnDocument: 'after' });
   res.json(settings);
 });
 
@@ -312,7 +312,7 @@ router.put('/settings', async (req, res) => {
     const settings = await SiteSettings.findOneAndUpdate(
       { key: 'main' },
       { siteName, allowRegistrations, maintenanceMode, featuredCollege },
-      { upsert: true, new: true }
+      { upsert: true, returnDocument: 'after' }
     );
     res.json({ message: 'Settings saved', settings });
   } catch (err) {

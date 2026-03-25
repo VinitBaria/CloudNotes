@@ -48,7 +48,7 @@ app.get('/api/announcements', async (req, res) => {
 app.get('/api/settings', async (req, res) => {
   try {
     const [settings, colleges] = await Promise.all([
-      SiteSettings.findOneAndUpdate({ key: 'main' }, {}, { upsert: true, new: true }),
+      SiteSettings.findOneAndUpdate({ key: 'main' }, {}, { upsert: true, returnDocument: 'after' }),
       College.find().sort({ name: 1 })
     ]);
     res.json({ ...settings.toObject(), colleges });
