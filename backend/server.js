@@ -14,6 +14,8 @@ require('./config/passport')(passport);
 
 const app = express();
 
+app.set('trust proxy', 1); // Trust Render's proxy to read HTTPS headers
+
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use((req, res, next) => {
   if (req.originalUrl.includes('/api/payment/webhook')) {
