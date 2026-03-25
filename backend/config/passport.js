@@ -9,6 +9,7 @@ module.exports = function (passport) {
         clientID: process.env.GOOGLE_CLIENT_ID || 'mock',
         clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'mock',
         callbackURL: '/api/auth/google/callback',
+        proxy: true,
       },
       async (accessToken, refreshToken, profile, done) => {
         const newUser = {
@@ -45,6 +46,7 @@ module.exports = function (passport) {
         clientID: process.env.GITHUB_CLIENT_ID || 'mock',
         clientSecret: process.env.GITHUB_CLIENT_SECRET || 'mock',
         callbackURL: '/api/auth/github/callback',
+        proxy: true,
         scope: ['user:email'],
       },
       async (accessToken, refreshToken, profile, done) => {
